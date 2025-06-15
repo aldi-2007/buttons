@@ -1,149 +1,188 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portal Market</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kanvas Fullscreen</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-      text-align: center;
-      padding: 50px 20px;
+    html, body {
       margin: 0;
-      overflow-x: hidden;
-    }
-
-    .decor {
-      font-size: 35px;
-      margin-bottom: 35px;
-      animation: pulse 2s infinite;
-    }
-
-    .highlight-box {
-      display: inline-block;
-      padding: 20px 20px;
-      border: 1px solid #ffffff99;
-      border-radius: 15px;
-      font-size: 1.2em;
-      font-weight: bold;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-      animation: glow 5s ease-in-out infinite alternate;
-      margin-bottom: 25px;
-    }
-
-    .btn-container {
-      position: relative;
-      display: inline-block;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, black, silver, white, grey, black);
-      border: none;
-      color: #222;
-      padding: 16px 34px;
-      font-size: 20px;
-      border-radius: 40px;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
-      transition: all 0.3s ease-in-out;
-      animation: slideUp 1.2s ease-out;
-      font-weight: bold;
-      position: relative;
+      padding: 0;
       overflow: hidden;
-      z-index: 2;
+      touch-action: none;
+      background: #f0f0f0;
     }
-
-    .btn:hover {
-      background: linear-gradient(135deg, black, silver, white, grey, black);
-      box-shadow: 0 0 30px rgba(255, 153, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.3);
-      transform: scale(1.06);
+    canvas {
+      display: block;
+      touch-action: none;
+      background: #fff;
+      border: 2px solid #000;
     }
-
-    .sparkle {
-      position: absolute;
-      color: #fffacd;
-      font-size: 16px;
-      animation: sparkleMove 2s infinite ease-in-out;
-      opacity: 1000;
+    #toolbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      padding: 5px;
     }
-
-    .sparkle::after {
-      content: "+";
-    }
-
-    /* Banyak posisi dan delay berbeda agar tampak acak dan ramai */
-    .sparkle:nth-child(1)  { top: -20px; left: 10%; animation-delay: 0s; }
-    .sparkle:nth-child(2)  { top: 0;     left: 80%; animation-delay: 0.5s; }
-    .sparkle:nth-child(3)  { top: 60%;   left: -25px; animation-delay: 1s; }
-    .sparkle:nth-child(4)  { bottom: 0;  left: 50%; animation-delay: 1.5s; }
-    .sparkle:nth-child(5)  { bottom: -20px; right: 20%; animation-delay: 2s; }
-    .sparkle:nth-child(6)  { top: -15px; right: 10%; animation-delay: 2.5s; }
-    .sparkle:nth-child(7)  { bottom: 30px; left: -15px; animation-delay: 3s; }
-    .sparkle:nth-child(8)  { top: 100%; left: 90%; animation-delay: 3.5s; }
-
-    @keyframes sparkleMove {
-      0% { transform: translateY(0) scale(0.5); opacity: 0; }
-      50% { transform: translateY(-10px) scale(1.2); opacity: 1; }
-      100% { transform: translateY(0) scale(0.5); opacity: 0; }
-    }
-
-    @keyframes glow {
-      from {
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-      }
-      to {
-        box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
-      }
-    }
-
-    @keyframes slideUp {
-      from {opacity: 0; transform: translateY(40px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes pulse {
-      0% {transform: scale(1);}
-      50% {transform: scale(1.1);}
-      100% {transform: scale(1);}
+    #toolbar input,
+    #toolbar button {
+      margin: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="decor">🎉 Selamat Datang! 🎉</div>
-
-  <div class="highlight-box">✨ Klik Tombol di Bawah Ini ✨</div>
-
-  <div class="btn-container">
-    <!-- Sparkle stars -->
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-
-    <!-- Button -->
-    <button class="btn" id="dynamicButton" onclick="ubahTombol()">🤖 MENUJU KE BOT</button>
+  <div id="toolbar">
+    <input type="color" id="colorPicker" value="#000000">
+    <input type="range" id="brushSize" min="1" max="50" value="5">
+    <button onclick="setEraser(false)">🖌️ Gambar</button>
+    <button onclick="setEraser(true)">🧽 Penghapus</button>
+    <button onclick="undo()">⬅️ Undo</button>
+    <button onclick="redo()">➡️ Redo</button>
+    <button onclick="clearCanvas()">🗑️ Bersihkan</button>
+    <button onclick="saveImage()">💾 Save</button>
   </div>
 
-  <script>
-    let clicked = false;
+  <canvas id="canvas"></canvas>
 
-    function ubahTombol() {
-      const btn = document.getElementById("dynamicButton");
-      if (!clicked) {
-        window.open("https://t.me/portals/market?startapp=7998861975", "_blank");
-        btn.textContent = "⚠️ klik Lagi Disini ⚠️";
-        clicked = true;
-        btn.onclick = () => {
-          window.open("https://t.me/PriceNFTbot?start=", "_blank");
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const brushSizeSlider = document.getElementById('brushSize');
+
+    let isDrawing = false;
+    let isErasing = false;
+    let brushColor = colorPicker.value;
+    let brushSize = brushSizeSlider.value;
+
+    const history = [];
+    let historyStep = -1;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      saveHistory();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function saveHistory() {
+      historyStep++;
+      if (historyStep < history.length) history.length = historyStep;
+      history.push(canvas.toDataURL());
+    }
+
+    function draw(e) {
+      if (!isDrawing) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX || e.touches?.[0]?.clientX) - rect.left;
+      const y = (e.clientY || e.touches?.[0]?.clientY) - rect.top;
+
+      ctx.lineWidth = brushSize;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = isErasing ? '#ffffff' : brushColor;
+
+      ctx.lineTo(x, y);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      draw(e);
+    });
+
+    canvas.addEventListener('mousemove', draw);
+
+    canvas.addEventListener('mouseup', () => {
+      isDrawing = false;
+      ctx.beginPath();
+      saveHistory();
+    });
+
+    canvas.addEventListener('mouseout', () => {
+      isDrawing = false;
+      ctx.beginPath();
+    });
+
+    // Sentuhan (touch)
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isDrawing = true;
+      draw(e);
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      draw(e);
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', () => {
+      isDrawing = false;
+      ctx.beginPath();
+      saveHistory();
+    });
+
+    // Tools
+    colorPicker.addEventListener('input', () => {
+      brushColor = colorPicker.value;
+    });
+
+    brushSizeSlider.addEventListener('input', () => {
+      brushSize = brushSizeSlider.value;
+    });
+
+    function setEraser(value) {
+      isErasing = value;
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      saveHistory();
+    }
+
+    function undo() {
+      if (historyStep > 0) {
+        historyStep--;
+        const img = new Image();
+        img.src = history[historyStep];
+        img.onload = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
       }
     }
+
+    function redo() {
+      if (historyStep < history.length - 1) {
+        historyStep++;
+        const img = new Image();
+        img.src = history[historyStep];
+        img.onload = () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+      }
+    }
+
+    function saveImage() {
+      const link = document.createElement('a');
+      link.download = 'gambar-kanvas.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    saveHistory();
   </script>
 </body>
 </html>
