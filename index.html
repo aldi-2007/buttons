@@ -46,9 +46,7 @@
     <button onclick="undo()">⬅️ Undo</button>
     <button onclick="redo()">➡️ Redo</button>
     <button onclick="clearCanvas()">🗑️ Bersihkan</button>
-    <button onclick="saveImage()">💾 Save JPG</button>
   </div>
-
   <canvas id="canvas"></canvas>
 
   <script>
@@ -77,7 +75,7 @@
     function saveHistory() {
       historyStep++;
       if (historyStep < history.length) history.length = historyStep;
-      history.push(canvas.toDataURL("image/jpeg", 0.8));
+      history.push(canvas.toDataURL());
     }
 
     function draw(e) {
@@ -115,6 +113,7 @@
       ctx.beginPath();
     });
 
+    // Sentuhan
     canvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
       isDrawing = true;
@@ -132,6 +131,7 @@
       saveHistory();
     });
 
+    // Tools
     colorPicker.addEventListener('input', () => {
       brushColor = colorPicker.value;
     });
@@ -171,13 +171,6 @@
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
       }
-    }
-
-    function saveImage() {
-      const link = document.createElement('a');
-      link.download = 'gambar-kanvas.jpg';
-      link.href = canvas.toDataURL('image/jpeg', 0.9); // kualitas 0.9 dari 1
-      link.click();
     }
 
     saveHistory();
