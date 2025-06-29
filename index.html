@@ -3,147 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portal Market</title>
+  <title>Form Laporan Penipu</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-      text-align: center;
-      padding: 50px 20px;
       margin: 0;
-      overflow-x: hidden;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
     }
 
-    .decor {
-      font-size: 35px;
-      margin-bottom: 35px;
-      animation: pulse 2s infinite;
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff4d4d;
     }
 
-    .highlight-box {
-      display: inline-block;
-      padding: 20px 20px;
-      border: 1px solid #ffffff99;
-      border-radius: 15px;
-      font-size: 1.2em;
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 77, 77, 0.2);
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
       font-weight: bold;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-      animation: glow 5s ease-in-out infinite alternate;
-      margin-bottom: 25px;
     }
 
-    .btn-container {
-      position: relative;
-      display: inline-block;
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      background: #333;
+      color: #fff;
+      border: 1px solid #666;
+      border-radius: 5px;
+      font-size: 15px;
     }
 
-    .btn {
-      background: linear-gradient(135deg, black, silver, white, grey, black);
-      border: none;
-      color: #222;
-      padding: 16px 34px;
-      font-size: 20px;
-      border-radius: 40px;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 204, 0, 0.6);
-      transition: all 0.3s ease-in-out;
-      animation: slideUp 1.2s ease-out;
-      font-weight: bold;
-      position: relative;
-      overflow: hidden;
-      z-index: 2;
+    textarea {
+      resize: vertical;
     }
 
-    .btn:hover {
-      background: linear-gradient(135deg, black, silver, white, grey, black);
-      box-shadow: 0 0 30px rgba(255, 153, 0, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.3);
-      transform: scale(1.06);
-    }
-
-    .sparkle {
-      position: absolute;
-      color: #fffacd;
+    button {
+      margin-top: 25px;
+      width: 100%;
+      padding: 15px;
+      background: #ff4d4d;
+      color: white;
       font-size: 16px;
-      animation: sparkleMove 2s infinite ease-in-out;
-      opacity: 1000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    .sparkle::after {
-      content: "+";
+    button:hover {
+      background: #e63939;
     }
 
-    /* Banyak posisi dan delay berbeda agar tampak acak dan ramai */
-    .sparkle:nth-child(1)  { top: -20px; left: 10%; animation-delay: 0s; }
-    .sparkle:nth-child(2)  { top: 0;     left: 80%; animation-delay: 0.5s; }
-    .sparkle:nth-child(3)  { top: 60%;   left: -25px; animation-delay: 1s; }
-    .sparkle:nth-child(4)  { bottom: 0;  left: 50%; animation-delay: 1.5s; }
-    .sparkle:nth-child(5)  { bottom: -20px; right: 20%; animation-delay: 2s; }
-    .sparkle:nth-child(6)  { top: -15px; right: 10%; animation-delay: 2.5s; }
-    .sparkle:nth-child(7)  { bottom: 30px; left: -15px; animation-delay: 3s; }
-    .sparkle:nth-child(8)  { top: 100%; left: 90%; animation-delay: 3.5s; }
-
-    @keyframes sparkleMove {
-      0% { transform: translateY(0) scale(0.5); opacity: 0; }
-      50% { transform: translateY(-10px) scale(1.2); opacity: 1; }
-      100% { transform: translateY(0) scale(0.5); opacity: 0; }
-    }
-
-    @keyframes glow {
-      from {
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
       }
-      to {
-        box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
-      }
-    }
-
-    @keyframes slideUp {
-      from {opacity: 0; transform: translateY(40px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes pulse {
-      0% {transform: scale(1);}
-      50% {transform: scale(1.1);}
-      100% {transform: scale(1);}
     }
   </style>
 </head>
 <body>
-  <div class="decor">🎉 Selamat Datang! 🎉</div>
 
-  <div class="highlight-box">✨ Klik Tombol di Bawah Ini ✨</div>
+  <h1>Form Laporan Penipu</h1>
 
-  <div class="btn-container">
-    <!-- Sparkle stars -->
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
+  <div class="container">
+    <label for="userId">🆔 User ID:</label>
+    <input type="text" id="userId" placeholder="Ketik menggunakan angka.">
 
-    <!-- Button -->
-    <button class="btn" id="dynamicButton" onclick="ubahTombol()">🤖 MENUJU KE BOT</button>
+    <label for="username">🎟️ Username:</label>
+    <input type="text" id="username" placeholder="Ketik menggunakan @.">
+
+    <label for="accClone">👥 Acc Clone:</label>
+    <input type="text" id="accClone" placeholder="Ketik menggunakan @.">
+
+    <label for="payment">💸 Nama/No Payment:</label>
+    <input type="text" id="payment" placeholder="Ketik text atau angka.">
+
+    <label for="kronologi">📝 Kronologi:</label>
+    <textarea id="kronologi" rows="6" placeholder="Tulis kronologi dengan detail."></textarea>
+
+    <button onclick="copyText()">📋 Salin dan Laporkan</button>
   </div>
 
   <script>
-    let clicked = false;
+    function copyText() {
+      const userId = document.getElementById("userId").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const accClone = document.getElementById("accClone").value.trim();
+      const payment = document.getElementById("payment").value.trim();
+      const kronologi = document.getElementById("kronologi").value.trim();
 
-    function ubahTombol() {
-      const btn = document.getElementById("dynamicButton");
-      if (!clicked) {
-        window.open("https://t.me/portals/market?startapp=7998861975", "_blank");
-        btn.textContent = "⚠️ klik Lagi Disini ⚠️";
-        clicked = true;
-        btn.onclick = () => {
-          window.open("https://t.me/PriceNFTbot?start=", "_blank");
-        };
+      if (!userId || !username || !accClone || !payment || !kronologi) {
+        alert("❗ Harap isi semua kolom terlebih dahulu.");
+        return;
       }
+
+      const result = `🥷🏻  INFORMASI PENIPU 🥷🏻
+
+🆔 User ID: ${userId}
+🎟️ Username: ${username}
+👥 Acc Clone: ${accClone}
+💸 Nama/No Payment: ${payment}
+===========================
+📝 Kronologi:
+${kronologi}`;
+
+      const temp = document.createElement("textarea");
+      temp.value = result;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand("copy");
+      document.body.removeChild(temp);
+
+      alert("✅ Teks berhasil disalin ke clipboard!");
     }
   </script>
+
 </body>
 </html>
