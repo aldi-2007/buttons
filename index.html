@@ -136,6 +136,16 @@ ${kronologi || '-'}`;
 
       alert("✅ Teks berhasil disalin ke clipboard!");
     }
+
+    // Ketuk di mana pun untuk menutup keyboard (menghilangkan fokus input)
+    document.addEventListener("touchstart", function(e) {
+      const active = document.activeElement;
+      if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA")) {
+        if (!e.target.closest("input") && !e.target.closest("textarea")) {
+          active.blur(); // Hilangkan fokus, menutup keyboard
+        }
+      }
+    });
   </script>
 
 </body>
